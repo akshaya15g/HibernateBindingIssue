@@ -18,17 +18,15 @@ public class InProcessGuaranteeEntity {
     private String refNo;
     private String seqNo;
 
-
-
     private Set<InProcessPartyEntity> parties;
 
     private String guaranteeNumber;
 
-
+    private String entityId;
 
     private InProcessWorkUnitEntity workUnit;
 
-
+    private String partyUnderObligor;
 
     @Id
     @Column(name = "REF_NO")
@@ -50,13 +48,11 @@ public class InProcessGuaranteeEntity {
         this.seqNo = seqNo;
     }
 
-
     @OneToMany(fetch = EAGER)
-    @JoinTable(name = "OT_TXN_PARTY", schema = "RBI_TRADE",
-            joinColumns = {
-                    @JoinColumn(name = "REF_NO", referencedColumnName = "REF_NO"),
-                    @JoinColumn(name = "SEQ_NO", referencedColumnName = "SEQ_NO")
-            })
+    @JoinColumns({
+            @JoinColumn(name = "SEQ_NO", referencedColumnName = "SEQ_NO"),
+            @JoinColumn(name = "REF_NO", referencedColumnName = "REF_NO")
+    })
     public Set<InProcessPartyEntity> getParties() {
         return parties;
     }
@@ -75,13 +71,21 @@ public class InProcessGuaranteeEntity {
         this.guaranteeNumber = lettrGuarNo;
     }
 
+    @Basic
+    @Column(name = "ENTITYID")
+    public String getEntityId() {
+        return entityId;
+    }
 
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
+    }
 
 
     @OneToOne(fetch = EAGER)
     @JoinColumns({
-            @JoinColumn(name = "REF_NO",referencedColumnName = "REF_NO"),
-            @JoinColumn(name = "SEQ_NO",referencedColumnName = "SEQ_NO")
+            @JoinColumn(name = "REF_NO", referencedColumnName = "REF_NO"),
+            @JoinColumn(name = "SEQ_NO", referencedColumnName = "SEQ_NO")
     })
     public InProcessWorkUnitEntity getWorkUnit() {
         return workUnit;
@@ -91,8 +95,15 @@ public class InProcessGuaranteeEntity {
         this.workUnit = workUnit;
     }
 
+    @Basic
+    @Column(name="PARTY_UNDER_OBLIGOR")
+    public String getPartyUnderObligor() {
+        return partyUnderObligor;
+    }
 
-
+    public void setPartyUnderObligor(String partyUnderObligor) {
+        this.partyUnderObligor = partyUnderObligor;
+    }
 
 
 }
